@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CrankyApe.space — Tools for New Eden</title>
+<meta name="description" content="Small, practical web tools for EVE Online pilots, built by CrankyApe.">
+<meta name="theme-color" content="#08090b">
+<meta property="og:title" content="CrankyApe.space — Tools for New Eden">
+<meta property="og:description" content="Small, practical web tools for EVE Online pilots.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://crankyape.space/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#08090b; --panel:#0f1115; --panel2:#13161b; --line:#1f242c; --line2:#2a313b;
+    --text:#d5d9df; --dim:#7d8693; --faint:#4b535e;
+    --amber:#f2a43a; --amber-d:#a8691b; --green:#4fd18b; --cyan:#59c4e6; --red:#e5624f;
+    --mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+    --head:'Chakra Petch','JetBrains Mono',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--mono);font-size:14px;line-height:1.6;
+    background-image:
+      radial-gradient(ellipse at 80% -10%,rgba(242,164,58,.08),transparent 55%),
+      linear-gradient(var(--line) 1px,transparent 1px),
+      linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:auto,48px 48px,48px 48px;background-attachment:fixed}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;
+    background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.75));z-index:0}
+  a{color:inherit;text-decoration:none}
+  .wrap{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:0 24px}
+  .label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+  .amber{color:var(--amber)}
+
+  /* top bar */
+  header{position:sticky;top:0;z-index:10;background:rgba(8,9,11,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  header .wrap{display:flex;align-items:center;gap:24px;height:60px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--head);font-weight:700;font-size:18px;letter-spacing:.04em}
+  .brand svg{width:28px;height:28px}
+  .brand span{color:var(--dim);font-weight:500}
+  nav{display:flex;gap:4px;margin-left:auto}
+  nav a{padding:6px 12px;font-size:12px;color:var(--dim);border:1px solid transparent;letter-spacing:.06em}
+  nav a:hover{color:var(--amber);border-color:var(--line2)}
+  .clock{display:flex;flex-direction:column;align-items:flex-end;border-left:1px solid var(--line);padding-left:20px}
+  .clock b{font-size:15px;color:var(--amber);font-weight:500;letter-spacing:.05em}
+  .clock .label{font-size:9px}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:1.5fr 1fr;gap:32px;padding:80px 0 56px;align-items:start}
+  .tag{display:inline-flex;gap:10px;align-items:center;border:1px solid var(--line2);padding:4px 10px;margin-bottom:24px}
+  .tag i{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 10px var(--green);animation:pulse 2.4s infinite}
+  @keyframes pulse{50%{opacity:.35}}
+  h1{font-family:var(--head);font-weight:700;font-size:clamp(34px,5.2vw,58px);line-height:1.04;letter-spacing:-.01em;margin-bottom:22px}
+  h1 em{font-style:normal;color:var(--amber)}
+  .lede{color:var(--dim);max-width:52ch;font-size:15px}
+  .cta{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line2);transition:.15s}
+  .btn.primary{background:var(--amber);color:#16100a;border-color:var(--amber);font-weight:700}
+  .btn.primary:hover{background:#ffb954}
+  .btn:not(.primary):hover{border-color:var(--amber);color:var(--amber)}
+
+  /* pilot card */
+  .card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line2);position:relative}
+  .card::before,.card::after{content:"";position:absolute;width:10px;height:10px;border-color:var(--amber);border-style:solid}
+  .card::before{top:-1px;left:-1px;border-width:2px 0 0 2px}
+  .card::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0}
+  .card-h{display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line)}
+  .pilot{display:flex;gap:14px;align-items:center;padding:18px 16px;border-bottom:1px solid var(--line)}
+  .portrait{width:56px;height:56px;border:1px solid var(--line2);display:grid;place-items:center;background:#0b0d10}
+  .pilot h3{font-family:var(--head);font-size:20px;font-weight:600}
+  .rows{padding:6px 16px 10px}
+  .row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line)}
+  .row:last-child{border:0}
+  .row span:first-child{color:var(--dim);font-size:12px}
+  .row span:last-child{text-align:right}
+  .meter{display:flex;gap:3px;margin-top:4px}
+  .meter i{flex:1;height:5px;background:var(--line2)}
+  .meter i.on{background:var(--amber)}
+
+  /* section heads */
+  section{padding:56px 0}
+  .sh{display:flex;align-items:baseline;gap:16px;margin-bottom:28px;border-bottom:1px solid var(--line);padding-bottom:14px}
+  .sh h2{font-family:var(--head);font-size:28px;font-weight:600}
+  .sh .label{margin-left:auto}
+  .filters{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+  .filters button{font:inherit;font-size:11px;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:var(--dim);border:1px solid var(--line2);padding:6px 12px;cursor:pointer}
+  .filters button.on,.filters button:hover{color:var(--amber);border-color:var(--amber)}
+
+  /* module grid */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+  .mod{display:flex;flex-direction:column;transition:.2s}
+  .mod:hover{border-color:var(--amber-d);transform:translateY(-2px)}
+  .mod .top{display:flex;align-items:center;gap:12px;padding:16px;border-bottom:1px solid var(--line)}
+  .slot{width:42px;height:42px;border:1px solid var(--line2);display:grid;place-items:center;background:#0b0d10;flex:none}
+  .slot svg{width:22px;height:22px;stroke:var(--amber);fill:none;stroke-width:1.6}
+  .mod h3{font-family:var(--head);font-size:19px;font-weight:600;line-height:1.2}
+  .mod .sub{font-size:11px;color:var(--faint);letter-spacing:.08em}
+  .status{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:10px;letter-spacing:.15em;text-transform:uppercase;white-space:nowrap}
+  .status i{width:8px;height:8px;border-radius:50%}
+  .s-live i{background:var(--green);box-shadow:0 0 8px var(--green)} .s-live{color:var(--green)}
+  .s-dev i{background:var(--amber);box-shadow:0 0 8px var(--amber)} .s-dev{color:var(--amber)}
+  .s-private i{background:var(--cyan);box-shadow:0 0 8px var(--cyan)} .s-private{color:var(--cyan)}
+  .s-offline i{background:var(--red)} .s-offline{color:var(--red)}
+  .mod p{padding:16px 16px 4px;color:var(--dim);font-size:13px;flex:1}
+  .specs{padding:8px 16px 4px}
+  .specs .row{font-size:12px;padding:6px 0}
+  .chips{display:flex;flex-wrap:wrap;gap:5px;justify-content:flex-end}
+  .chip{font-size:10px;padding:2px 7px;border:1px solid var(--line2);color:var(--text)}
+  .mod .foot{display:flex;border-top:1px solid var(--line);margin-top:12px}
+  .mod .foot a{flex:1;text-align:center;padding:11px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+  .mod .foot a+a{border-left:1px solid var(--line)}
+  .mod .foot a:hover{color:var(--amber);background:rgba(242,164,58,.05)}
+  .mod .foot a.off{pointer-events:none;color:var(--faint)}
+
+  /* about */
+  .about{display:grid;grid-template-columns:1.4fr 1fr;gap:32px}
+  .about p{color:var(--dim);margin-bottom:16px;font-size:14px;max-width:62ch}
+  .about p b{color:var(--text);font-weight:500}
+  .log{font-size:12px}
+  .log .row span:first-child{color:var(--amber)}
+
+  footer{border-top:1px solid var(--line);margin-top:40px;padding:28px 0 40px;position:relative;z-index:1}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;font-size:11px;color:var(--faint)}
+  footer .legal{max-width:70ch}
+  footer a:hover{color:var(--amber)}
+
+  @media (max-width:860px){
+    .hero,.about{grid-template-columns:1fr}
+    nav{display:none}
+    .clock{margin-left:auto}
+    .hero{padding-top:48px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="CrankyApe.space home">
+      <svg viewBox="0 0 32 32" fill="none" stroke="#f2a43a" stroke-width="1.8">
+        <path d="M16 2 29 9.5v13L16 30 3 22.5v-13z"/>
+        <circle cx="11.5" cy="15" r="2" fill="#f2a43a" stroke="none"/>
+        <circle cx="20.5" cy="15" r="2" fill="#f2a43a" stroke="none"/>
+        <path d="M9 11.5l5 1.6M23 11.5l-5 1.6M12 22c2.5-1.8 5.5-1.8 8 0"/>
+      </svg>
+      CrankyApe<span>.space</span>
+    </a>
+    <nav>
+      <a href="#tools">/fitting</a>
+      <a href="#about">/pilot</a>
+      <a href="https://github.com/scrowe71" target="_blank" rel="noopener">/github ↗</a>
+    </nav>
+    <div class="clock">
+      <b id="evetime">--:--:--</b>
+      <span class="label">EVE Time · UTC</span>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap">
+    <div class="hero">
+      <div>
+        <div class="tag label"><i></i>Tranquility link · <span id="hdr-count">0</span> modules online</div>
+        <h1>Tools built in null-sec, <em>for</em> the pilots who live there.</h1>
+        <p class="lede">A small hangar of practical web apps for EVE Online: market trading, assets, wallets, mail alerts and ratting intel. Each one started as a fix for something that annoyed me, and they all sign in with EVE SSO.</p>
+        <div class="cta">
+          <a class="btn primary" href="#tools">Browse the fitting →</a>
+          <a class="btn" href="https://github.com/scrowe71" target="_blank" rel="noopener">Source on GitHub ↗</a>
+        </div>
+      </div>
+
+      <aside class="card" aria-label="Pilot dossier">
+        <div class="card-h"><span class="label">Pilot dossier</span><span class="label amber">ID-01</span></div>
+        <div class="pilot">
+          <div class="portrait">
+            <svg viewBox="0 0 32 32" width="34" height="34" fill="none" stroke="#f2a43a" stroke-width="1.6">
+              <path d="M16 2 29 9.5v13L16 30 3 22.5v-13z"/>
+              <circle cx="11.5" cy="15" r="2" fill="#f2a43a" stroke="none"/>
+              <circle cx="20.5" cy="15" r="2" fill="#f2a43a" stroke="none"/>
+              <path d="M9 11.5l5 1.6M23 11.5l-5 1.6M12 22c2.5-1.8 5.5-1.8 8 0"/>
+            </svg>
+          </div>
+          <div>
+            <h3>CrankyApe</h3>
+            <div class="label">Capsuleer · Toolsmith</div>
+          </div>
+        </div>
+        <div class="rows">
+          <div class="row"><span>Data</span><span>ESI · EVE SSO</span></div>
+          <div class="row"><span>Stack</span><span>Python · JS · Workers</span></div>
+          <div class="row"><span>Hosting</span><span>Cloudflare</span></div>
+          <div class="row" style="display:block">
+            <div style="display:flex;justify-content:space-between"><span>Fitting status</span><span><b class="amber" id="c-live">0</b> live · <b id="c-dev">0</b> in dev</span></div>
+            <div class="meter" id="meter"></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <section id="tools">
+    <div class="wrap">
+      <div class="sh"><h2>Hangar fitting</h2><span class="label" id="slot-count">0 / 0 slots</span></div>
+      <div class="filters" id="filters">
+        <button class="on" data-f="all">All</button>
+        <button data-f="live">Live</button>
+        <button data-f="dev">In development</button>
+        <button data-f="private">Private</button>
+      </div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="sh"><h2>About the pilot</h2><span class="label">Logbook</span></div>
+      <div class="about">
+        <div>
+          <p>These tools exist because EVE kept handing me spreadsheet problems: working out what's worth importing to a null-sec market hub, keeping track of where my stuff ended up across characters and corp hangars, and noticing in-game mail without having the client open.</p>
+          <p>Everything here runs on <b>Cloudflare</b> with the source on <b>GitHub</b>, and it reads from <b>CCP's ESI API</b> through EVE SSO. Your tokens stay in your own browser unless a tool says otherwise.</p>
+          <p>If something breaks or you want a feature, send me an EVE mail or open an issue on GitHub.</p>
+        </div>
+        <div class="card log">
+          <div class="card-h"><span class="label">Recent activity</span><span class="label amber">LOG</span></div>
+          <div class="rows" id="log"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>© <span id="yr"></span> CrankyApe.space · <a href="https://github.com/scrowe71" target="_blank" rel="noopener">GitHub</a></div>
+    <div class="legal">EVE Online and the EVE logo are the registered trademarks of CCP hf. All rights are reserved worldwide. All other trademarks are the property of their respective owners. CrankyApe.space is not affiliated with CCP hf.</div>
+  </div>
+</footer>
+
+<script>
+/* ===== EDIT THIS LIST TO ADD / UPDATE TOOLS =====
+   status: "live" | "dev" | "private" | "offline"
+   url: leave "" if there's no public link yet                       */
+const TOOLS = [
+  {
+    name:"EveTrader", sub:"MARKET · IMPORTS", icon:"chart", status:"live",
+    url:"https://evetrader.crankyape.space", repo:"https://github.com/scrowe71/eve-trader",
+    desc:"Import finder that compares Jita prices against a null-sec market hub, with taxes and hauling costs worked in so you can see real margins.",
+    stack:["JavaScript","Pages","ESI"], auth:"EVE SSO"
+  },
+  {
+    name:"EveAssets", sub:"INVENTORY · CORP", icon:"crate", status:"dev",
+    url:"https://eveassets.crankyape.space", repo:"https://github.com/scrowe71/eveassets",
+    desc:"Every character's and corporation's assets in one place, with hangar divisions, estimated ISK values, search, filters and CSV export.",
+    stack:["JavaScript","Pages","ESI"], auth:"EVE SSO"
+  },
+  {
+    name:"EveWallet", sub:"ISK · JOURNAL", icon:"wallet", status:"live",
+    url:"", repo:"",
+    desc:"Wallet journal and transaction tracker for characters and corp divisions. Shows where the ISK came from and where it went.",
+    stack:["JavaScript","Cloudflare","ESI"], auth:"EVE SSO"
+  },
+  {
+    name:"EveMail Notifier", sub:"ALERTS · DISCORD", icon:"mail", status:"private",
+    url:"", repo:"https://github.com/scrowe71/evemail",
+    desc:"A Worker that checks ESI for new in-game mail on a schedule and pings Discord when something arrives, so you don't miss anything while you're out of the client.",
+    stack:["Workers","Cron","Discord"], auth:"EVE SSO"
+  },
+  {
+    name:"Kill Tracker", sub:"INTEL · RATTING", icon:"target", status:"offline",
+    url:"", repo:"",
+    desc:"Hourly NPC kill stats with sovereignty filtering, pinned systems and charts over several timeframes. Being rebuilt to cover all of New Eden.",
+    stack:["Python","Flask","Chart.js"], auth:"EVE SSO"
+  }
+];
+
+const LOG = [
+  ["2026-11","EveWallet migrated to Cloudflare"],
+  ["2026-11","EveMail alerts switched to Discord"],
+  ["2026-11","EveAssets development started"],
+  ["2026-11","EveTrader moved to crankyape.space"]
+];
+/* ================================================ */
+
+const ICONS = {
+  chart:'<path d="M3 20h18M6 16l4-5 3 3 5-7"/><circle cx="18" cy="7" r="1.4"/>',
+  crate:'<path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/>',
+  wallet:'<rect x="3" y="6" width="18" height="13" rx="1"/><path d="M3 10h18M16 14.5h2"/>',
+  mail:'<rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 6l9 7 9-7"/>',
+  target:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>'
+};
+const LABEL = {live:"Online", dev:"In dev", private:"Private", offline:"Offline"};
+
+function render(filter){
+  const g = document.getElementById('grid');
+  g.innerHTML = TOOLS.filter(t => filter==='all' || t.status===filter).map(t => `
+    <article class="card mod">
+      <div class="top">
+        <div class="slot"><svg viewBox="0 0 24 24">${ICONS[t.icon]||ICONS.crate}</svg></div>
+        <div><h3>${t.name}</h3><div class="sub">${t.sub}</div></div>
+        <div class="status s-${t.status}"><i></i>${LABEL[t.status]}</div>
+      </div>
+      <p>${t.desc}</p>
+      <div class="specs">
+        <div class="row"><span>Stack</span><span class="chips">${t.stack.map(s=>`<span class="chip">${s}</span>`).join('')}</span></div>
+        <div class="row"><span>Auth</span><span>${t.auth}</span></div>
+      </div>
+      <div class="foot">
+        <a href="${t.url||'#'}" class="${t.url?'':'off'}" target="_blank" rel="noopener">${t.url?'Launch ↗':'No public link'}</a>
+        <a href="${t.repo||'#'}" class="${t.repo?'':'off'}" target="_blank" rel="noopener">${t.repo?'Source ↗':'Source private'}</a>
+      </div>
+    </article>`).join('');
+}
+
+document.getElementById('filters').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  document.querySelectorAll('#filters button').forEach(x => x.classList.toggle('on', x===b));
+  render(b.dataset.f);
+});
+
+// counters
+const live = TOOLS.filter(t=>t.status==='live').length;
+const dev  = TOOLS.filter(t=>t.status==='dev').length;
+const online = TOOLS.filter(t=>t.status!=='offline').length;
+document.getElementById('c-live').textContent = live;
+document.getElementById('c-dev').textContent = dev;
+document.getElementById('hdr-count').textContent = online;
+document.getElementById('slot-count').textContent = `${online} / ${TOOLS.length} slots active`;
+document.getElementById('meter').innerHTML = TOOLS.map(t=>`<i class="${t.status!=='offline'?'on':''}"></i>`).join('');
+document.getElementById('log').innerHTML = LOG.map(([d,t])=>`<div class="row"><span>${d}</span><span>${t}</span></div>`).join('');
+document.getElementById('yr').textContent = new Date().getUTCFullYear();
+
+// EVE time = UTC
+function tick(){
+  const d = new Date();
+  document.getElementById('evetime').textContent = d.toISOString().substr(11,8);
+}
+tick(); setInterval(tick, 1000);
+render('all');
+</script>
+</body>
+</html>
