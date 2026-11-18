@@ -271,14 +271,15 @@ const TOOLS = [
     stack:["Workers","Cron","Discord"], auth:"EVE SSO"
   },
   {
-    name:"Kill Tracker", sub:"INTEL · RATTING", icon:"target", status:"offline",
-    url:"", repo:"",
-    desc:"Hourly NPC kill stats with sovereignty filtering, pinned systems and charts over several timeframes. Being rebuilt to cover all of New Eden.",
-    stack:["Python","Flask","Chart.js"], auth:"EVE SSO"
+    name:"Kill Tracker", sub:"INTEL · RATTING", icon:"target", status:"dev",
+    url:"https://killtracker.crankyape.space", repo:"https://github.com/scrowe71/killtracker",
+    desc:"Hourly NPC and ship kills for every system in New Eden. Filter by region, true-sec or any sov-holding alliance, find an alliance's least-used systems, and pin the systems you watch.",
+    stack:["Workers","D1","Chart.js"], auth:"EVE SSO"
   }
 ];
 
 const LOG = [
+  ["2026-11","Kill Tracker rebuilt on Cloudflare for all of New Eden"],
   ["2026-11","EveWallet migrated to Cloudflare"],
   ["2026-11","EveMail alerts switched to Discord"],
   ["2026-11","EveAssets development started"],
