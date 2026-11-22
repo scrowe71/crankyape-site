@@ -6,6 +6,10 @@
 <title>CrankyApe.space — Tools for New Eden</title>
 <meta name="description" content="Small, practical web tools for EVE Online pilots, built by CrankyApe.">
 <meta name="theme-color" content="#08090b">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<meta property="og:image" content="https://crankyape.space/img/crankyape.jpg">
 <meta property="og:title" content="CrankyApe.space — Tools for New Eden">
 <meta property="og:description" content="Small, practical web tools for EVE Online pilots.">
 <meta property="og:type" content="website">
@@ -40,8 +44,9 @@
   header{position:sticky;top:0;z-index:10;background:rgba(8,9,11,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
   header .wrap{display:flex;align-items:center;gap:24px;height:60px}
   .brand{display:flex;align-items:center;gap:10px;font-family:var(--head);font-weight:700;font-size:18px;letter-spacing:.04em}
-  .brand svg{width:28px;height:28px}
+  .brand img{width:30px;height:30px;border-radius:4px;border:1px solid var(--line2);object-fit:cover}
   .brand span{color:var(--dim);font-weight:500}
+  .brand .bn{color:inherit;font-weight:inherit}
   nav{display:flex;gap:4px;margin-left:auto}
   nav a{padding:6px 12px;font-size:12px;color:var(--dim);border:1px solid transparent;letter-spacing:.06em}
   nav a:hover{color:var(--amber);border-color:var(--line2)}
@@ -145,13 +150,8 @@
 <header>
   <div class="wrap">
     <a class="brand" href="#top" aria-label="CrankyApe.space home">
-      <svg viewBox="0 0 32 32" fill="none" stroke="#f2a43a" stroke-width="1.8">
-        <path d="M16 2 29 9.5v13L16 30 3 22.5v-13z"/>
-        <circle cx="11.5" cy="15" r="2" fill="#f2a43a" stroke="none"/>
-        <circle cx="20.5" cy="15" r="2" fill="#f2a43a" stroke="none"/>
-        <path d="M9 11.5l5 1.6M23 11.5l-5 1.6M12 22c2.5-1.8 5.5-1.8 8 0"/>
-      </svg>
-      CrankyApe<span>.space</span>
+      <img src="/img/crankyape.jpg" alt="" width="30" height="30">
+      <span class="bn">CrankyApe<span>.space</span></span>
     </a>
     <nav>
       <a href="#tools">/fitting</a>
