@@ -122,7 +122,9 @@
   .about p{color:var(--dim);margin-bottom:16px;font-size:14px;max-width:62ch}
   .about p b{color:var(--text);font-weight:500}
   .log{font-size:12px}
-  .log .row span:first-child{color:var(--amber)}
+  .log .row{display:grid;grid-template-columns:5.5em 1fr;gap:14px;align-items:baseline}
+  .log .row span:first-child{color:var(--amber);white-space:nowrap}
+  .log .row span:last-child{text-align:left;line-height:1.5}
 
   footer{border-top:1px solid var(--line);margin-top:40px;padding:28px 0 40px;position:relative;z-index:1}
   footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;font-size:11px;color:var(--faint)}
