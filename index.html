@@ -70,7 +70,8 @@
   .card::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0}
   .card-h{display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line)}
   .pilot{display:flex;gap:14px;align-items:center;padding:18px 16px;border-bottom:1px solid var(--line)}
-  .portrait{width:56px;height:56px;border:1px solid var(--line2);display:grid;place-items:center;background:#0b0d10}
+  .portrait{width:72px;height:72px;border:1px solid var(--line2);background:#0b0d10;flex:none;overflow:hidden}
+  .portrait img{display:block;width:100%;height:100%;object-fit:cover}
   .pilot h3{font-family:var(--head);font-size:20px;font-weight:600}
   .rows{padding:6px 16px 10px}
   .row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line)}
@@ -180,14 +181,7 @@
       <aside class="card" aria-label="Pilot dossier">
         <div class="card-h"><span class="label">Pilot dossier</span><span class="label amber">ID-01</span></div>
         <div class="pilot">
-          <div class="portrait">
-            <svg viewBox="0 0 32 32" width="34" height="34" fill="none" stroke="#f2a43a" stroke-width="1.6">
-              <path d="M16 2 29 9.5v13L16 30 3 22.5v-13z"/>
-              <circle cx="11.5" cy="15" r="2" fill="#f2a43a" stroke="none"/>
-              <circle cx="20.5" cy="15" r="2" fill="#f2a43a" stroke="none"/>
-              <path d="M9 11.5l5 1.6M23 11.5l-5 1.6M12 22c2.5-1.8 5.5-1.8 8 0"/>
-            </svg>
-          </div>
+          <div class="portrait"><img src="/img/crankyape.jpg" alt="CrankyApe" width="72" height="72"></div>
           <div>
             <h3>CrankyApe</h3>
             <div class="label">Capsuleer · Toolsmith</div>
