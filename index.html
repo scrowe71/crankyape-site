@@ -280,6 +280,12 @@ const TOOLS = [
     stack:["Workers","D1","Chart.js"], auth:"EVE SSO"
   },
   {
+    name:"MiningLedger", sub:"ICE · MINING · ISK", icon:"ice", status:"dev",
+    url:"https://miningledger.crankyape.space", repo:"https://github.com/scrowe71/miningledger",
+    desc:"Ice mined by your main and every alt, grouped into sessions with ISK/hr. Valued as compressed ice at today's Jita buy or sell price, at whatever percentage you set.",
+    stack:["Workers","D1","Cron"], auth:"EVE SSO"
+  },
+  {
     name:"EveMail Notifier", sub:"ALERTS · DISCORD", icon:"mail", status:"private",
     url:"", repo:"https://github.com/scrowe71/evemail",
     desc:"A Worker that checks ESI for new in-game mail on a schedule and pings Discord when something arrives, so you don't miss anything while you're out of the client.",
@@ -288,6 +294,7 @@ const TOOLS = [
 ];
 
 const LOG = [
+  ["2026-11","MiningLedger development started"],
   ["2026-11","EVE PI tool hosted at pi.crankyape.space"],
   ["2026-11","Kill Tracker rebuilt on Cloudflare for all of New Eden"],
   ["2026-11","EveSkillsheet development started"],
@@ -305,6 +312,7 @@ const ICONS = {
   mail:'<rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 6l9 7 9-7"/>',
   planet:'<circle cx="12" cy="12" r="6"/><ellipse cx="12" cy="12" rx="10.5" ry="3.5" transform="rotate(-20 12 12)"/>',
   ship:'<path d="M12 2l4 9-4 11-4-11z"/><path d="M8 11l-5 4 5 1M16 11l5 4-5 1"/>',
+  ice:'<path d="M12 3l6 5-2 10-4 3-4-3-2-10z"/><path d="M12 3l1.5 8L12 21M6 8l7.5 3L18 8"/>',
   target:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>'
 };
 const LABEL = {live:"Online", dev:"In dev", private:"Private", offline:"Offline"};
